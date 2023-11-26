@@ -1,0 +1,9 @@
+go 1.21.3
+
+use (
+	./modules/abstract-factory
+	./modules/adapter
+	./modules/builder
+	./modules/facade
+	./modules/factory-method
+)
