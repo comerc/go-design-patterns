@@ -3,7 +3,14 @@ go 1.21.3
 use (
 	./modules/abstract-factory
 	./modules/adapter
+	./modules/bridge
 	./modules/builder
+	./modules/chain-of-responsibility
+	./modules/decorator
 	./modules/facade
 	./modules/factory-method
+	./modules/object-pool
+	./modules/observer
+	./modules/singleton
+	./modules/state
 )
