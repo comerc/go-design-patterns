@@ -6,11 +6,15 @@ use (
 	./modules/bridge
 	./modules/builder
 	./modules/chain-of-responsibility
+	./modules/composite
 	./modules/decorator
 	./modules/facade
 	./modules/factory-method
+	./modules/flyweight
 	./modules/object-pool
 	./modules/observer
+	./modules/prototype
+	./modules/proxy
 	./modules/singleton
 	./modules/state
 )
