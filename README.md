@@ -7,5 +7,27 @@
 Виды паттернов:
 
 - Порождающие
+  - Abstract Factory
+  - Builder
+  - Factory Method
+  - Prototype
+  - Singleton
 - Структурные
+  - Adapter
+  - Bridge
+  - Composite
+  - Decorator
+  - Facade
+  - Lightweight
+  - Proxy
 - Поведенческие
+  - Chain of Responsibility
+  - Iterator
+  - Memento
+  - State
+  - Template Method
+  - Command
+  - Mediator
+  - Observer
+  - Strategy
+  - Visitor
