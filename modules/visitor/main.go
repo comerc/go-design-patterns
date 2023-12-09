@@ -9,18 +9,18 @@ package main
 import "fmt"
 
 type Visitor[T Element] interface {
-	Visit(element T)
+	Visit(element *T)
 }
 
-type Element interface {
+type Acceptor interface {
 	Accept(visitor Visitor[Element])
 }
 
-type ConcreteElement struct {
+type Element struct {
 	name string
 }
 
-func (ce *ConcreteElement) Accept(visitor Visitor[Element]) {
+func (ce *Element) Accept(visitor Visitor[Element]) {
 	visitor.Visit(ce)
 }
 
@@ -28,8 +28,8 @@ type AreaCalculator struct {
 	area int
 }
 
-func (a *AreaCalculator) Visit(element Element) {
-	fmt.Println("Calculating area for", element.(*ConcreteElement).name)
+func (a *AreaCalculator) Visit(element *Element) {
+	fmt.Println("Calculating area for", element.name)
 }
 
 type MiddleCoordinates struct {
@@ -37,14 +37,14 @@ type MiddleCoordinates struct {
 	y int
 }
 
-func (a *MiddleCoordinates) Visit(element Element) {
-	fmt.Println("Calculating middle point coordinates for", element.(*ConcreteElement).name)
+func (a *MiddleCoordinates) Visit(element *Element) {
+	fmt.Println("Calculating coordinates for", element.name)
 }
 
 func main() {
-	square := ConcreteElement{name: "Square"}
-	circle := ConcreteElement{name: "Circle"}
-	rectangle := ConcreteElement{name: "Rectangle"}
+	square := Element{name: "Square"}
+	circle := Element{name: "Circle"}
+	rectangle := Element{name: "Rectangle"}
 
 	areaCalculator := &AreaCalculator{}
 	square.Accept(areaCalculator)
