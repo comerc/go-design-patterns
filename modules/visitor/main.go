@@ -1,54 +1,35 @@
-package main
-
-import "fmt"
-
 // Посетитель позволяет добавить новую операцию для целой иерархии классов,
 // не изменяя код этих классов (нельзя заменить простой перегрузкой методов)
 // https://refactoring.guru/ru/design-patterns/visitor-double-dispatch
 
-// реализация через дженерик паттерна Visitor
-// смущает IsShape - предложите решение лучше?
+// реализация паттерна Visitor через дженерик!
 
-type Shape interface {
-	IsShape()
+package main
+
+import "fmt"
+
+type Visitor[T Element] interface {
+	Visit(element T)
 }
 
-type Visitor[T Shape] interface {
-	visit(s T)
+type Element interface {
+	Accept(visitor Visitor[Element])
 }
 
-type Square struct {
-	side int
+type ConcreteElement struct {
+	name string
 }
 
-func (*Square) IsShape() {}
-
-type Circle struct {
-	radius int
+func (ce *ConcreteElement) Accept(visitor Visitor[Element]) {
+	visitor.Visit(ce)
 }
-
-func (*Circle) IsShape() {}
-
-type Rectangle struct {
-	l int
-	b int
-}
-
-func (*Rectangle) IsShape() {}
 
 type AreaCalculator struct {
 	area int
 }
 
-func (a *AreaCalculator) visit(s Shape) {
-	switch s.(type) {
-	case *Square:
-		fmt.Println("Calculating area for square")
-	case *Circle:
-		fmt.Println("Calculating area for circle")
-	case *Rectangle:
-		fmt.Println("Calculating area for rectangle")
-	}
+func (a *AreaCalculator) Visit(element Element) {
+	fmt.Println("Calculating area for", element.(*ConcreteElement).name)
 }
 
 type MiddleCoordinates struct {
@@ -56,30 +37,23 @@ type MiddleCoordinates struct {
 	y int
 }
 
-func (a *MiddleCoordinates) visit(s Shape) {
-	switch s.(type) {
-	case *Square:
-		fmt.Println("Calculating middle point coordinates for square")
-	case *Circle:
-		fmt.Println("Calculating middle point coordinates for circle")
-	case *Rectangle:
-		fmt.Println("Calculating middle point coordinates for rectangle")
-	}
+func (a *MiddleCoordinates) Visit(element Element) {
+	fmt.Println("Calculating middle point coordinates for", element.(*ConcreteElement).name)
 }
 
 func main() {
-	square := &Square{side: 2}
-	circle := &Circle{radius: 3}
-	rectangle := &Rectangle{l: 2, b: 3}
+	square := ConcreteElement{name: "Square"}
+	circle := ConcreteElement{name: "Circle"}
+	rectangle := ConcreteElement{name: "Rectangle"}
 
 	areaCalculator := &AreaCalculator{}
-	areaCalculator.visit(square)
-	areaCalculator.visit(circle)
-	areaCalculator.visit(rectangle)
+	square.Accept(areaCalculator)
+	circle.Accept(areaCalculator)
+	rectangle.Accept(areaCalculator)
 
 	fmt.Println()
 	middleCoordinates := &MiddleCoordinates{}
-	middleCoordinates.visit(square)
-	middleCoordinates.visit(circle)
-	middleCoordinates.visit(rectangle)
+	square.Accept(middleCoordinates)
+	circle.Accept(middleCoordinates)
+	rectangle.Accept(middleCoordinates)
 }
